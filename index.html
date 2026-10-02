@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Environment in Action | Practice Activity</title>
+<style>
+  :root {
+    --ink: #18142b;
+    --ink-2: #3f3a57;
+    --muted: #6d6884;
+    --line: #e5e1f0;
+    --card: #ffffff;
+    --violet: #582fc1;
+    --violet-2: #7a54e6;
+    --violet-tint: #ece6ff;
+    --lime: #b8e62a;
+    --lime-dark: #3b4d00;
+    --lime-tint: #effad0;
+    --cobalt: #0b5394;
+    --cobalt-tint: #dde9f6;
+    --jade: #0f9d74;
+    --jade-tint: #d8f6ea;
+    --melon: #e8335f;
+    --melon-tint: #ffe1e8;
+    --slate: #61708f;
+    --slate-tint: #e6eaf3;
+    --r-xl: 26px;
+    --r-lg: 20px;
+    --r-md: 14px;
+    --shadow: 0 1px 2px rgba(24,20,43,.06), 0 10px 30px rgba(40,24,90,.10);
+    --shadow-hi: 0 3px 8px rgba(24,20,43,.10), 0 20px 40px rgba(40,24,90,.16);
+    --font: "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+    background-color: #f1eefc;
+    background-image:
+      radial-gradient(46rem 32rem at -8% -10%, rgba(140,108,240,.55), transparent 62%),
+      radial-gradient(42rem 30rem at 108% 8%, rgba(198,240,90,.62), transparent 60%),
+      radial-gradient(44rem 30rem at 100% 92%, rgba(255,120,150,.40), transparent 62%),
+      radial-gradient(42rem 32rem at -6% 96%, rgba(80,170,255,.42), transparent 60%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .28;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 18px 16px 44px; }
+  h1, h2, h3, h4 { margin: 0; line-height: 1.15; letter-spacing: -.01em; }
+  p { margin: 0; }
+  h1:focus, h2:focus, h3:focus { outline: none; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+  /* Header */
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .uni b { display: block; font-size: 15px; font-weight: 800; }
+  .uni span { font-size: 12.5px; color: var(--ink-2); font-weight: 600; }
+  .pa { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 800; font-size: 13px; }
+  .pa i { width: 10px; height: 10px; border-radius: 3px; background: var(--lime); transform: rotate(45deg); }
+
+  /* Stage track */
+  .track { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 14px; }
+  .tstep { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--r-md); background: rgba(255,255,255,.72); border: 1.5px solid rgba(255,255,255,.9); backdrop-filter: blur(6px); }
+  .tstep .tn { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: #ebe8f4; color: var(--muted); flex-shrink: 0; }
+  .tstep .tn svg { width: 19px; height: 19px; }
+  .tstep small { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+  .tstep b { font-size: 14.5px; }
+  .tstep.now { background: #fff; border-color: var(--violet); box-shadow: var(--shadow); }
+  .tstep.now .tn { background: var(--violet); color: #fff; }
+  .tstep.now small { color: var(--violet); }
+  .tstep.done .tn { background: var(--jade-tint); color: var(--jade); }
+
+  /* Dashboard */
+  .dash { display: grid; grid-template-columns: 1fr 1fr 1fr 1.1fr; gap: 10px; margin-bottom: 18px; }
+  .tile { background: var(--card); border-radius: var(--r-lg); padding: 14px; box-shadow: var(--shadow); position: relative; overflow: hidden; min-width: 0; }
+  .tile::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 5px; background: var(--acc); }
+  .tile .th { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .tile .th span { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: var(--acc-t); color: var(--acc-d); flex-shrink: 0; }
+  .tile .th svg { width: 17px; height: 17px; }
+  .tile .th b { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); }
+  .tile .empty { font-size: 13px; color: var(--muted); font-style: italic; }
+  .tchips { display: flex; flex-direction: column; gap: 6px; }
+  .tchip { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; padding: 6px 9px; border-radius: 9px; background: var(--acc-t); }
+  .tchip b { font-weight: 800; color: var(--ink); }
+  .tchip em { font-style: normal; font-size: 11.5px; font-weight: 700; color: var(--acc-d); text-align: right; }
+  .tile.pulse { animation: glow 1.1s ease; }
+  @keyframes glow { 0% { box-shadow: 0 0 0 0 rgba(88,47,193,.45); } 100% { box-shadow: 0 0 0 12px rgba(88,47,193,0); } }
+  .t-int { --acc: var(--violet); --acc-t: var(--violet-tint); --acc-d: var(--violet); }
+  .t-ext { --acc: var(--lime); --acc-t: var(--lime-tint); --acc-d: var(--lime-dark); }
+  .t-act { --acc: var(--cobalt); --acc-t: var(--cobalt-tint); --acc-d: var(--cobalt); }
+  .t-prod { --acc: linear-gradient(90deg, var(--melon), var(--slate), var(--jade)); --acc-t: #f1eff7; --acc-d: var(--ink-2); }
+  .gauge { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 2px; }
+  .gz { text-align: center; font-size: 11.5px; font-weight: 800; padding: 9px 2px; border-radius: 9px; background: #f1eff7; color: #a19cb5; transition: all .3s ease; }
+  .gz.on.z-p { background: var(--melon); color: #fff; }
+  .gz.on.z-s { background: var(--slate); color: #fff; }
+  .gz.on.z-i { background: var(--jade); color: #fff; }
+  .gnote { font-size: 12.5px; color: var(--ink-2); margin-top: 8px; }
+
+  /* Generic */
+  .card { background: var(--card); border-radius: var(--r-xl); box-shadow: var(--shadow); padding: 24px; }
+  .stack { display: flex; flex-direction: column; gap: 16px; }
+  .kicker { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--violet); }
+  .lead { font-size: 16px; color: var(--ink-2); }
+  .h2 { font-size: clamp(23px, 3.2vw, 30px); font-weight: 800; margin: 6px 0 6px; }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; border-radius: var(--r-xl); color: #fff; padding: 34px 30px; box-shadow: var(--shadow);
+    background: radial-gradient(24rem 18rem at 88% 18%, rgba(198,240,90,.95), transparent 60%), radial-gradient(22rem 16rem at 6% 110%, rgba(255,110,150,.8), transparent 60%), linear-gradient(125deg, #3a1d8f 0%, #582fc1 50%, #7a54e6 100%); }
+  .hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .38; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23h)'/%3E%3C/svg%3E"); }
+  .hero > * { position: relative; z-index: 1; }
+  .hero .eb { font-size: 12.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+  .hero h1 { font-size: clamp(30px, 5vw, 48px); font-weight: 800; margin: 10px 0 8px; letter-spacing: -.02em; }
+  .hero .sub { display: inline-block; font-size: 14px; font-weight: 800; background: rgba(255,255,255,.18); padding: 5px 12px; border-radius: 999px; margin-bottom: 12px; }
+  .hero p { max-width: 620px; font-size: 16.5px; opacity: .96; }
+
+  .intro-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
+  .glint { display: flex; align-items: baseline; gap: 10px; margin: 4px 0 12px; }
+  .glint b { font-size: 32px; font-weight: 800; letter-spacing: -.03em; color: var(--violet); }
+  .glint span { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .facts { display: grid; gap: 8px; }
+  .fact { display: grid; grid-template-columns: 112px 1fr; gap: 10px; font-size: 14.5px; padding: 10px 12px; border-radius: 12px; background: #f6f4fb; }
+  .fact b { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+  .role { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--lime-tint); font-size: 14.5px; }
+  .role b { color: var(--lime-dark); }
+  .method { counter-reset: m; list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .method li { counter-increment: m; display: grid; grid-template-columns: 38px 1fr; gap: 12px; align-items: center; padding: 12px; border-radius: 14px; border: 1.5px solid var(--line); }
+  .method li::before { content: counter(m); width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--violet); }
+  .method li:nth-child(2)::before { background: var(--cobalt); }
+  .method li:nth-child(3)::before { background: var(--jade); }
+  .method b { display: block; font-size: 15px; }
+  .method span { font-size: 13.5px; color: var(--ink-2); }
+  .legend-io { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .io { border-radius: 14px; padding: 12px; font-size: 13.5px; }
+  .io b { display: flex; align-items: center; gap: 6px; font-size: 14px; margin-bottom: 2px; }
+  .io svg { width: 18px; height: 18px; }
+  .io-i { background: var(--violet-tint); } .io-i b { color: var(--violet); }
+  .io-e { background: var(--lime-tint); } .io-e b { color: var(--lime-dark); }
+
+  /* Buttons */
+  .btn { appearance: none; border: 0; font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 8px 8px 8px 22px; border-radius: 999px; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; min-height: 48px; }
+  .btn .bi { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--lime); color: var(--ink); }
+  .btn .bi svg { width: 17px; height: 17px; }
+  .btn-main { background: var(--violet); color: #fff; box-shadow: 0 10px 20px rgba(88,47,193,.32); }
+  .btn-main:hover:not(:disabled) { transform: translateY(-1px); background: #4a25a8; }
+  .btn-main:disabled { background: #c6c2d4; box-shadow: none; cursor: not-allowed; }
+  .btn-main:disabled .bi { background: #e4e1ec; color: #9a95ad; }
+  .btn-soft { background: #fff; color: var(--violet); border: 2px solid var(--violet); padding: 8px 22px; }
+  .btn-soft:hover { background: var(--violet-tint); }
+  .btn-soft svg { width: 18px; height: 18px; }
+  :focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
+  .act-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .hint { font-size: 13.5px; color: var(--muted); }
+
+  /* Stage 1 */
+  .s1-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+  .upd { background: #fff; border-radius: var(--r-lg); border: 2px solid var(--line); padding: 18px; display: flex; flex-direction: column; gap: 12px; transition: border-color .2s ease, box-shadow .2s ease; }
+  .upd-top { display: flex; align-items: center; gap: 10px; }
+  .upd-top .num { font-size: 12px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+  .upd-top .reveal { margin-left: auto; font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 999px; display: none; }
+  .upd p.msg { font-size: 15.5px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sopt { appearance: none; font: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 10px; border-radius: 12px; border: 2px solid var(--line); background: #faf9fd; font-weight: 800; font-size: 14px; color: var(--ink-2); transition: all .15s ease; }
+  .sopt svg { width: 20px; height: 20px; }
+  .sopt:hover:not(:disabled) { border-color: #bfb3e8; background: #fff; transform: translateY(-1px); }
+  .sopt[aria-checked="true"].o-i { background: var(--violet); border-color: var(--violet); color: #fff; }
+  .sopt[aria-checked="true"].o-e { background: var(--lime); border-color: #9fcb12; color: var(--lime-dark); }
+  .sopt:disabled { cursor: default; }
+  .fbk { display: none; font-size: 14px; padding: 10px 12px; border-radius: 12px; }
+  .upd.ok { border-color: var(--jade); }
+  .upd.no { border-color: var(--melon); }
+  .upd.fixed { border-color: var(--jade); border-style: dashed; }
+  .upd.ok .fbk, .upd.fixed .fbk { display: block; background: var(--jade-tint); }
+  .upd.no .fbk { display: block; background: var(--melon-tint); }
+  .upd.ok .reveal, .upd.fixed .reveal { display: inline-block; background: var(--jade-tint); color: var(--jade); }
+  .upd.no .reveal { display: inline-block; background: var(--melon-tint); color: #b3173f; }
+  .fbk b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
+  .upd.ok .fbk b, .upd.fixed .fbk b { color: var(--jade); }
+  .upd.no .fbk b { color: #b3173f; }
+  .tally { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 14px 16px; border-radius: var(--r-lg); background: var(--violet-tint); }
+  .tally .big { font-size: 26px; font-weight: 800; color: var(--violet); }
+  .tally span { font-size: 14px; color: var(--ink-2); }
+
+  /* Stage 2 pathway */
+  .pw-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pw-pill { font-size: 12.5px; font-weight: 800; padding: 5px 12px; border-radius: 999px; background: var(--cobalt-tint); color: var(--cobalt); }
+  .path { display: grid; grid-template-columns: minmax(0,1fr) 46px minmax(0,1fr) 46px minmax(0,1fr); align-items: stretch; margin-top: 16px; }
+  .node { border-radius: var(--r-lg); padding: 16px; border: 2px solid var(--line); background: #fff; display: flex; flex-direction: column; gap: 10px; transition: opacity .2s ease, border-color .2s ease; min-width: 0; }
+  .node.idle { opacity: .5; }
+  .node.active { border-color: var(--cobalt); box-shadow: 0 0 0 4px rgba(11,83,148,.12); }
+  .node .nh { display: flex; align-items: center; gap: 8px; }
+  .node .nh span { width: 30px; height: 30px; border-radius: 10px; display: grid; place-items: center; color: #fff; flex-shrink: 0; }
+  .node .nh svg { width: 18px; height: 18px; }
+  .node .nh b { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); }
+  .node-force { background: var(--fbg); border-color: transparent; }
+  .node-force h4 { font-size: 18px; }
+  .node-force p { font-size: 14.5px; }
+  .ftype { align-self: flex-start; font-size: 11.5px; font-weight: 800; padding: 3px 9px; border-radius: 999px; }
+  .link { position: relative; display: grid; place-items: center; }
+  .link::before { content: ""; position: absolute; left: 4px; right: 4px; top: 50%; height: 4px; margin-top: -2px; border-radius: 4px; background: repeating-linear-gradient(90deg, #cfc9e2 0 8px, transparent 8px 14px); }
+  .link i { position: relative; width: 16px; height: 16px; border-radius: 50%; background: #cfc9e2; border: 3px solid #fff; box-shadow: 0 0 0 2px #cfc9e2; }
+  .link.lit::before { background: var(--cobalt); }
+  .link.lit i { background: var(--cobalt); box-shadow: 0 0 0 2px var(--cobalt); }
+  .popts { display: grid; gap: 8px; }
+  .popt { appearance: none; font: inherit; color: inherit; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 2px solid var(--line); background: #faf9fd; font-weight: 700; font-size: 14.5px; transition: all .15s ease; }
+  .popt .pi { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: #fff; color: var(--cobalt); flex-shrink: 0; border: 1.5px solid var(--line); }
+  .popt .pi svg { width: 18px; height: 18px; }
+  .popt:hover:not(:disabled) { border-color: #9ab8da; background: #fff; transform: translateY(-1px); }
+  .popt[aria-checked="true"] { border-color: var(--cobalt); background: var(--cobalt-tint); }
+  .popt[aria-checked="true"] .pi { background: var(--cobalt); color: #fff; border-color: var(--cobalt); }
+  .popt:disabled { cursor: default; }
+  .locked .popt:not([aria-checked="true"]) { opacity: .5; }
+  .popt.good { border-color: var(--jade) !important; background: var(--jade-tint) !important; opacity: 1 !important; }
+  .popt.good .pi { background: var(--jade) !important; color: #fff !important; border-color: var(--jade) !important; }
+  .popt.bad { border-color: var(--melon) !important; background: var(--melon-tint) !important; }
+  .popt.bad .pi { background: var(--melon) !important; color: #fff !important; border-color: var(--melon) !important; }
+  .pw-fb { margin-top: 16px; border-radius: var(--r-lg); padding: 18px; background: #f6f4fb; animation: rise .3s ease; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .res-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .res { font-size: 12.5px; font-weight: 800; padding: 5px 11px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+  .res svg { width: 14px; height: 14px; }
+  .res.y { background: var(--jade-tint); color: var(--jade); }
+  .res.n { background: var(--melon-tint); color: #b3173f; }
+  .pw-fb p { font-size: 15px; }
+
+  /* Stage 3 */
+  .forces-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .fbox { border-radius: var(--r-lg); padding: 14px 16px; }
+  .fbox b { display: flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 6px; }
+  .fbox b svg { width: 18px; height: 18px; }
+  .fbox p { font-size: 14.5px; }
+  .fb-i { background: var(--violet-tint); } .fb-i b { color: var(--violet); }
+  .fb-e { background: var(--lime-tint); } .fb-e b { color: var(--lime-dark); }
+  .plans { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+  .plan { appearance: none; font: inherit; color: inherit; text-align: left; cursor: pointer; border: 2px solid var(--line); background: #fff; border-radius: var(--r-lg); padding: 0; overflow: hidden; display: flex; flex-direction: column; transition: all .15s ease; position: relative; }
+  .plan:hover:not(:disabled) { border-color: #bfb3e8; box-shadow: var(--shadow-hi); transform: translateY(-2px); }
+  .plan .ptop { padding: 14px 16px 10px; background: linear-gradient(135deg, #f6f3ff, #f2fbe0); }
+  .plan .pl { font-size: 12px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--violet); }
+  .plan h4 { font-size: 17px; margin-top: 3px; }
+  .plan ul { margin: 0; padding: 12px 16px 16px; list-style: none; display: grid; gap: 8px; }
+  .plan li { font-size: 14px; color: var(--ink-2); display: grid; grid-template-columns: 8px 1fr; gap: 10px; }
+  .plan li::before { content: ""; width: 8px; height: 8px; border-radius: 3px; background: var(--violet); margin-top: 7px; transform: rotate(45deg); }
+  .plan .sel { position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #cbc5dc; background: #fff; display: grid; place-items: center; color: #fff; }
+  .plan .sel svg { width: 14px; height: 14px; opacity: 0; }
+  .plan[aria-checked="true"] { border-color: var(--violet); box-shadow: 0 0 0 4px rgba(88,47,193,.14); }
+  .plan[aria-checked="true"] .sel { background: var(--violet); border-color: var(--violet); }
+  .plan[aria-checked="true"] .sel svg { opacity: 1; }
+  .plans.locked .plan { cursor: default; }
+  .plans.locked .plan:not(.picked):not(.best) { opacity: .5; }
+  .plans.locked .plan.best { border-color: var(--jade); }
+  .plans.locked .plan.picked:not(.best) { border-color: var(--melon); box-shadow: none; }
+  .plans.locked .plan.picked:not(.best) .sel { background: var(--melon); border-color: var(--melon); }
+  .ptag { display: none; margin: 0 16px 14px; align-self: flex-start; font-size: 11.5px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+  .plans.locked .plan.best .ptag { display: inline-block; background: var(--jade-tint); color: var(--jade); }
+  .plans.locked .plan.picked:not(.best) .ptag { display: inline-block; background: var(--melon-tint); color: #b3173f; }
+
+  .outcome { border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow); background: #fff; animation: rise .35s ease; }
+  .oc-top { padding: 20px 24px; color: #fff; display: grid; grid-template-columns: 50px 1fr; gap: 14px; align-items: center; }
+  .oc-top .oi { width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center; background: rgba(255,255,255,.2); }
+  .oc-top .oi svg { width: 26px; height: 26px; }
+  .oc-top small { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .92; }
+  .oc-top h3 { font-size: 21px; font-weight: 800; margin-top: 2px; }
+  .oc-good { background: linear-gradient(120deg, #0b7a5a, #0f9d74 55%, #2bbf8f); }
+  .oc-mid { background: linear-gradient(120deg, #4a25a8, #582fc1 55%, #7a54e6); }
+  .oc-bad { background: linear-gradient(120deg, #b3173f, #e8335f 60%, #ff6b8a); }
+  .oc-body { padding: 20px 24px 24px; display: grid; gap: 14px; }
+  .oc-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+  .oc-cell { border-radius: var(--r-md); padding: 14px; }
+  .oc-cell .ch { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .oc-cell .ch b { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; }
+  .oc-cell .ch em { font-style: normal; font-size: 11.5px; font-weight: 800; padding: 2px 9px; border-radius: 999px; background: #fff; }
+  .oc-cell p { font-size: 14px; }
+  .c-int { background: var(--violet-tint); } .c-int b { color: var(--violet); }
+  .c-ext { background: var(--lime-tint); } .c-ext b { color: var(--lime-dark); }
+  .c-prod { background: var(--cobalt-tint); } .c-prod b { color: var(--cobalt); }
+  .best-note { font-size: 14.5px; padding: 12px 14px; border-radius: 12px; background: var(--jade-tint); }
+  .best-note b { color: #0b6e51; }
+
+  /* Results */
+  .skills { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+  .skill { background: #fff; border-radius: var(--r-xl); box-shadow: var(--shadow); padding: 20px; display: grid; grid-template-columns: 92px 1fr; gap: 16px; align-items: center; }
+  .ring { width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--rc) calc(var(--p) * 1%), #ece9f5 0); }
+  .ring span { width: 70px; height: 70px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-weight: 800; font-size: 18px; }
+  .skill h3 { font-size: 16px; margin-bottom: 4px; }
+  .skill .lv { font-size: 13px; font-weight: 800; }
+  .skill p { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+  .final { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .principles { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+  .pr { border-radius: var(--r-lg); padding: 18px; }
+  .pr .pn { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; color: #fff; margin-bottom: 10px; }
+  .pr p { font-size: 15px; font-weight: 700; }
+  .pr1 { background: var(--violet-tint); } .pr1 .pn { background: var(--violet); }
+  .pr2 { background: var(--lime-tint); } .pr2 .pn { background: #7da300; }
+  .pr3 { background: var(--cobalt-tint); } .pr3 .pn { background: var(--cobalt); }
+  .recap { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+  .rc { border-radius: 14px; padding: 12px 14px; background: #f6f4fb; }
+  .rc small { font-size: 11.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+  .rc b { display: block; font-size: 14.5px; margin-top: 2px; }
+
+  .foot { text-align: center; font-size: 12.5px; color: var(--ink-2); margin-top: 22px; }
+
+  @media (max-width: 960px) {
+    .dash { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .plans { grid-template-columns: minmax(0,1fr); }
+  }
+  @media (max-width: 820px) {
+    .path { grid-template-columns: minmax(0,1fr); }
+    .link { height: 40px; }
+    .link::before { left: 50%; right: auto; top: 4px; bottom: 4px; height: auto; width: 4px; margin: 0 0 0 -2px; background: repeating-linear-gradient(180deg, #cfc9e2 0 8px, transparent 8px 14px); }
+    .link.lit::before { background: var(--cobalt); }
+    .intro-grid, .s1-grid, .skills, .principles, .recap, .oc-grid, .forces-row { grid-template-columns: minmax(0,1fr); }
+  }
+  @media (max-width: 560px) {
+    .card { padding: 18px; }
+    .hero { padding: 26px 20px; }
+    .track { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; }
+    .tstep { padding: 8px; gap: 6px; flex-direction: column; text-align: center; }
+    .tstep b { font-size: 12.5px; }
+    .tstep small { font-size: 10px; }
+    .dash { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+    .tile { padding: 12px 10px; }
+    .tchip { flex-direction: column; align-items: flex-start; gap: 0; font-size: 12.5px; }
+    .tchip em { text-align: left; }
+    .tile .th b { font-size: 10.5px; }
+    .gauge { grid-template-columns: 1fr; }
+    .gz { padding: 5px 2px; }
+    .fact { grid-template-columns: 1fr; gap: 2px; }
+    .act-row .btn { width: 100%; }
+    .skill { grid-template-columns: 76px 1fr; }
+    .ring { width: 76px; height: 76px; } .ring span { width: 58px; height: 58px; font-size: 16px; }
+    .legend-io { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="uni"><b>Nexford University</b><span>BUS2125 The World of Business &middot; Section 4: Business Environment</span></div>
+    <span class="pa"><i aria-hidden="true"></i>Practice Activity</span>
+  </header>
+  <nav aria-label="Stage progress"><div class="track" id="track"></div></nav>
+  <section aria-label="Environment dashboard"><div class="dash" id="dash"></div></section>
+  <main id="app"></main>
+  <p class="sr" id="live" aria-live="polite"></p>
+  <p class="foot">Practice Activity &middot; Ungraded &middot; Nexford University</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============ Duotone icons ============ */
+  var F = 'fill="currentColor" fill-opacity=".2"';
+  var P = {
+    inside: '<rect x="3.5" y="3.5" width="17" height="17" rx="4.5" ' + F + '/><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3" fill="currentColor"/>',
+    outside: '<rect x="8" y="8" width="12.5" height="12.5" rx="3.5" ' + F + '/><rect x="8" y="8" width="12.5" height="12.5" rx="3.5"/><circle cx="5" cy="5" r="2.6" fill="currentColor"/>',
+    layers: '<path d="M12 3.5l8.5 4.5-8.5 4.5L3.5 8z" ' + F + '/><path d="M12 3.5l8.5 4.5-8.5 4.5L3.5 8z"/><path d="M3.5 12.5l8.5 4.5 8.5-4.5"/><path d="M3.5 16.5l8.5 4.5 8.5-4.5"/>',
+    gauge: '<path d="M3.5 17.5a8.5 8.5 0 1 1 17 0z" ' + F + '/><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="M12 17.5l4-5"/><circle cx="12" cy="17.5" r="1.7" fill="currentColor"/>',
+    scan: '<path d="M4 8.5V5a1 1 0 0 1 1-1h3.5"/><path d="M15.5 4H19a1 1 0 0 1 1 1v3.5"/><path d="M20 15.5V19a1 1 0 0 1-1 1h-3.5"/><path d="M8.5 20H5a1 1 0 0 1-1-1v-3.5"/><circle cx="12" cy="12" r="3.6" ' + F + '/><circle cx="12" cy="12" r="3.6"/>',
+    trail: '<circle cx="12" cy="4.5" r="2.3"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><circle cx="12" cy="19.5" r="2.3"/><path d="M12 6.8v2.9"/><path d="M12 14.3v2.9"/>',
+    pivot: '<path d="M5 19L18 6"/><path d="M10 5.5h8.5V14"/><circle cx="6" cy="18" r="2.4" fill="currentColor"/>',
+    people: '<circle cx="8.5" cy="8" r="3" ' + F + '/><circle cx="8.5" cy="8" r="3"/><path d="M3 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.7c2.6.1 4.6 1.9 5.2 4.8"/>',
+    cash: '<rect x="3" y="7" width="18" height="11" rx="2.5" ' + F + '/><rect x="3" y="7" width="18" height="11" rx="2.5"/><circle cx="12" cy="12.5" r="2.4"/><path d="M6 4.5h12"/>',
+    wave: '<path d="M3 20.5h18"/><path d="M4 16c3-1 4-6.5 7.5-6.5s4.5 4.5 8.5.5" /><circle cx="20" cy="9.5" r="2" fill="currentColor"/>',
+    printer: '<rect x="6.5" y="3.5" width="11" height="5" rx="1"/><rect x="3" y="8.5" width="18" height="8" rx="2.5" ' + F + '/><rect x="3" y="8.5" width="18" height="8" rx="2.5"/><rect x="7" y="13.5" width="10" height="7" rx="1" fill="#fff"/><path d="M17.5 11.5h.01"/>',
+    demand: '<rect x="4" y="13" width="4" height="7" rx="1" ' + F + '/><rect x="10" y="9" width="4" height="11" rx="1" ' + F + '/><rect x="16" y="4.5" width="4" height="15.5" rx="1" ' + F + '/><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="9" width="4" height="11" rx="1"/><rect x="16" y="4.5" width="4" height="15.5" rx="1"/>',
+    process: '<path d="M20 12a8 8 0 0 1-13.7 5.6"/><path d="M4 12a8 8 0 0 1 13.7-5.6"/><path d="M17.7 3v3.6h-3.6"/><path d="M6.3 21v-3.6h3.6"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>',
+    output: '<rect x="3.5" y="12" width="8" height="8" rx="1.5" ' + F + '/><rect x="3.5" y="12" width="8" height="8" rx="1.5"/><rect x="12.5" y="12" width="8" height="8" rx="1.5"/><rect x="8" y="3.5" width="8" height="8" rx="1.5" ' + F + '/><rect x="8" y="3.5" width="8" height="8" rx="1.5"/>',
+    costs: '<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3-8.7 8.7z" ' + F + '/><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3-8.7 8.7z"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/>',
+    up: '<path d="M6 15l6-6 6 6"/><path d="M12 9v11"/>',
+    down: '<path d="M6 9l6 6 6-6"/><path d="M12 15V4"/>',
+    flat: '<path d="M4 9.5h16"/><path d="M4 14.5h16"/>',
+    check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+    cross: '<path d="M6.5 6.5l11 11"/><path d="M17.5 6.5l-11 11"/>',
+    half: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/>',
+    go: '<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>',
+    again: '<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/>'
+  };
+  function ic(n) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + P[n] + '</svg>'; }
+
+  /* ============ Content ============ */
+  var FORCES = {
+    trend: { name: "Consumer Trends", type: "E", icon: "wave",
+      update: "School clubs and event organizers are asking more often for small batches with an individual name printed on each shirt, instead of one design in bulk.",
+      why: "Customer preferences change outside Glint. The business cannot control what customers want, but it can decide how to adapt." },
+    eng: { name: "Employee Engagement", type: "I", icon: "people",
+      update: "In this month's staff survey, fewer press operators say they feel involved in how work is planned, and misprinted orders are being caught later than before.",
+      why: "This comes from within Glint: the involvement and commitment of its own employees, which the business can influence." },
+    tech: { name: "Technology", type: "E", icon: "printer",
+      update: "A newer digital garment printer is now on the market. It prints full-color designs, including names, without preparing a separate screen for each color.",
+      why: "The printer is new technology available in the market. Glint did not create it, but it can choose whether and how to use it." },
+    fin: { name: "Financial Resources", type: "I", icon: "cash",
+      update: "After this spring's move to a larger studio, the money Glint has available for new spending this year is lower than planned, and two open roles are on hold.",
+      why: "The money available to the business is an internal condition. It restricts hiring and investment, and Glint has some ability to manage it." }
+  };
+  var ORDER = ["trend", "eng", "tech", "fin"];
+
+  var ACT = {
+    demand: ["Customer demand", "demand"], process: ["Processes", "process"], output: ["Output", "output"],
+    employees: ["Employees", "people"], costs: ["Costs", "costs"], tech: ["Technology", "printer"]
+  };
+  var PROD = { more: ["More efficient", "up"], less: ["Less efficient", "down"], same: ["Little immediate change", "flat"] };
+
+  var PATHS = [
+    { force: "trend",
+      change: "Personalized small-batch orders have grown from about one in ten orders to nearly one in three over the last three months, while large single-design orders are declining. The studio is still running at its usual pace.",
+      acts: ["process", "demand", "output"], act: "demand",
+      prods: ["less", "same", "more"], prod: "same",
+      fb: "The change is in what customers want, so customer demand is affected first. Glint still prints at its usual pace, so there is little immediate productivity change. If resources keep going to large runs customers value less, efficiency could weaken later." },
+    { force: "eng",
+      change: "Reprint requests have doubled this month. Operators say schedule changes reach them at the last minute, and they have stopped suggesting fixes. The same team now needs extra hours to finish the same number of orders.",
+      acts: ["costs", "employees", "demand"], act: "employees",
+      prods: ["same", "more", "less"], prod: "less",
+      fb: "Lower involvement shows up in how employees perform day to day: misprints are caught late and reprints rise. The same team needs more hours for the same orders, so Glint is producing less efficiently." }
+  ];
+
+  var PLANS = [
+    { title: "Technology-first upgrade",
+      steps: ["Use most of this year's available funds to buy two new digital printers for personalized orders.", "Keep current planning routines so the studio is not disrupted.", "Operators learn the new printers on the job."],
+      score: 1, tone: "mid", verdict: "Partly effective", head: "Personalized orders print faster, but misprints continue and funds are now tight.",
+      intS: "Not addressed", intT: "Operators still hear about changes late and feel left out of planning, so engagement stays low. Spending most of the funds also strains financial resources.",
+      extS: "Adapted", extT: "Glint changed how it produces to meet the demand for personalized orders.",
+      prod: "stable", prodT: "Faster printing is offset by reprints and extra hours, so productivity stays about the same.",
+      dash: { eng: "Still low", fin: "Mostly spent", trend: "Demand met", tech: "Two printers bought" }, actNow: "process",
+      final: "Glint now prints personalized orders faster, but operators still hear about changes late, so misprints and reprints continue. Gains from the new technology are partly lost to extra hours, and most of the available funds are spent, leaving productivity roughly stable." },
+    { title: "Involve the team, adapt the offering",
+      steps: ["Bring press operators into weekly schedule planning and share order changes a day earlier.", "Lease one digital printer and launch a personalized small-batch option.", "Train operators on the printer before the option launches."],
+      score: 2, tone: "good", verdict: "Strongest response", head: "Reprints fall, and personalized orders now run on their own small-batch line.",
+      intS: "Addressed", intT: "Glint changed something it can directly influence: how operators are involved and how schedule changes are shared.",
+      extS: "Adapted", extT: "Glint adapted its offering to what customers now value, using a lease that fits its limited funds.",
+      prod: "improving", prodT: "More orders are completed with the same team and fewer wasted hours.",
+      dash: { eng: "Recovering", fin: "Lease fits budget", trend: "Demand met", tech: "One printer leased" }, actNow: "output",
+      final: "Glint now offers personalized small batches on a leased printer, and operators who help plan the schedule are catching misprints earlier. More orders are completed with the same team and fewer wasted hours, so productivity is improving." },
+    { title: "Win back bulk orders",
+      steps: ["Offer discounts on large single-design orders to steer customers back toward bulk runs.", "Give operators a monthly bonus for keeping reprints low.", "Hold off on new equipment until funds recover."],
+      score: 1, tone: "bad", verdict: "Partly effective", head: "A few large orders return, but personalized requests keep growing and some go unfilled.",
+      intS: "Partly addressed", intT: "The bonus lifts effort for a while, but operators are still not involved in planning or told about changes earlier.",
+      extS: "Not adapted", extT: "Glint tried to steer customers instead of adapting to a preference it cannot control.",
+      prod: "pressure", prodT: "Resources keep going to an offering with declining demand, and discounts reduce what each order brings in.",
+      dash: { eng: "Short-term lift", fin: "Discounts strain", trend: "Orders unfilled", tech: "Not adopted" }, actNow: "demand",
+      final: "Discounts brought back a few large orders, but personalized demand kept growing and Glint is turning some of those customers away. The bonus lifted effort briefly, yet resources still go to an offering customers value less, so productivity is under pressure." }
+  ];
+  var BEST_PLAN = 1;
+
+  /* ============ State ============ */
+  var S;
+  function reset() {
+    S = {
+      view: 0,
+      s1: { ans: {}, submitted: false, first: 0 },
+      s2: { i: 0, act: null, prod: null, actLocked: false, done: false, correct: 0, traced: [] },
+      s3: { sel: null, locked: false },
+      dash: { classified: false, status: { trend: "Shifting", eng: "Falling", tech: "Newly available", fin: "Limited" }, acts: [], prod: "stable", note: "No change measured yet." }
+    };
+  }
+  var app = document.getElementById("app");
+  function say(t) { document.getElementById("live").textContent = t; }
+
+  /* ============ Track ============ */
+  function renderTrack() {
+    var st = [["Diagnose the Force", "scan"], ["Trace the Impact", "trail"], ["Choose the Response", "pivot"]];
+    document.getElementById("track").innerHTML = st.map(function (s, i) {
+      var n = i + 1;
+      var cls = S.view > n ? "done" : (S.view === n ? "now" : "");
+      return '<div class="tstep ' + cls + '"' + (S.view === n ? ' aria-current="step"' : '') + '><span class="tn">' + ic(S.view > n ? "check" : s[1]) + '</span><span><small>Stage ' + n + ' of 3</small><b>' + s[0] + '</b></span></div>';
+    }).join("");
+  }
+
+  /* ============ Dashboard ============ */
+  function renderDash(pulse) {
+    var d = S.dash;
+    function list(type) {
+      if (!d.classified) return '<p class="empty">Awaiting your diagnosis</p>';
+      return '<div class="tchips">' + ORDER.filter(function (k) { return FORCES[k].type === type; }).map(function (k) {
+        return '<div class="tchip"><b>' + FORCES[k].name + '</b><em>' + d.status[k] + '</em></div>';
+      }).join("") + '</div>';
+    }
+    var acts = d.acts.length ? '<div class="tchips">' + d.acts.map(function (a, i) {
+      return '<div class="tchip"><b>' + ACT[a][0] + '</b><em>' + (i === d.acts.length - 1 ? "Current focus" : "Traced") + '</em></div>';
+    }).join("") + '</div>' : '<p class="empty">Not traced yet</p>';
+    var z = { pressure: "z-p", stable: "z-s", improving: "z-i" };
+    var gauge = '<div class="gauge" role="img" aria-label="Productivity: ' + ({ pressure: "Under Pressure", stable: "Stable", improving: "Improving" }[d.prod]) + '">' +
+      [["pressure", "Under Pressure"], ["stable", "Stable"], ["improving", "Improving"]].map(function (g) {
+        return '<span class="gz ' + z[g[0]] + (d.prod === g[0] ? " on" : "") + '">' + g[1] + '</span>';
+      }).join("") + '</div><p class="gnote">' + d.note + '</p>';
+
+    document.getElementById("dash").innerHTML =
+      '<div class="tile t-int' + (pulse === "int" ? " pulse" : "") + '"><div class="th"><span>' + ic("inside") + '</span><b>Internal conditions</b></div>' + list("I") + '</div>' +
+      '<div class="tile t-ext' + (pulse === "int" ? " pulse" : "") + '"><div class="th"><span>' + ic("outside") + '</span><b>External conditions</b></div>' + list("E") + '</div>' +
+      '<div class="tile t-act' + (pulse === "act" ? " pulse" : "") + '"><div class="th"><span>' + ic("layers") + '</span><b>Business activity</b></div>' + acts + '</div>' +
+      '<div class="tile t-prod' + (pulse === "prod" || pulse === "act" ? " pulse" : "") + '"><div class="th"><span>' + ic("gauge") + '</span><b>Productivity</b></div>' + gauge + '</div>';
+  }
+
+  /* ============ Intro ============ */
+  function renderIntro() {
+    app.innerHTML =
+      '<div class="stack">' +
+      '<section class="hero">' +
+        '<div class="eb">Section 4 &middot; Business Environment</div>' +
+        '<h1 tabindex="-1" id="screenTitle">Business Environment in Action</h1>' +
+        '<span class="sub">Environmental Impact Simulator</span>' +
+        '<p>Conditions are shifting at a growing print studio. Diagnose where each force comes from, trace what it affects, and decide how the business should respond.</p>' +
+      '</section>' +
+      '<div class="intro-grid">' +
+        '<section class="card">' +
+          '<div class="kicker">The business</div>' +
+          '<div class="glint"><b>Glint</b><span>Austin, Texas</span></div>' +
+          '<div class="facts">' +
+            '<div class="fact"><b>Provides</b><span>Custom-printed shirts and hoodies, ordered online and shipped nationwide.</span></div>' +
+            '<div class="fact"><b>Customers</b><span>School clubs, event organizers, and small businesses.</span></div>' +
+            '<div class="fact"><b>Operations</b><span>About 40 employees and one screen-printing studio running a single daily shift.</span></div>' +
+          '</div>' +
+          '<div class="role"><b>Your role:</b> operations decision-maker. You will read the signals, trace their effects, and choose a response.</div>' +
+        '</section>' +
+        '<section class="card">' +
+          '<div class="kicker">Your analysis method</div>' +
+          '<ol class="method" style="margin-top:10px">' +
+            '<li><span><b>What changed?</b><span>Identify the specific internal or external force.</span></span></li>' +
+            '<li><span><b>What business activity is affected?</b><span>Employees, resources, processes, costs, customer demand, technology, or output.</span></span></li>' +
+            '<li><span><b>What happens to productivity?</b><span>More efficient, less efficient, or little immediate change.</span></span></li>' +
+          '</ol>' +
+          '<div class="legend-io">' +
+            '<div class="io io-i"><b>' + ic("inside") + 'Internal</b>Arises within the business. Glint can usually influence it.</div>' +
+            '<div class="io io-e"><b>' + ic("outside") + 'External</b>Originates outside. Glint monitors and adapts.</div>' +
+          '</div>' +
+        '</section>' +
+      '</div>' +
+      '<section class="card"><div class="act-row"><span class="hint">3 stages &middot; about 10 minutes &middot; ungraded &middot; one attempt per decision, then you move on</span>' +
+        '<button class="btn btn-main" id="startBtn" type="button">Start Stage 1 <span class="bi">' + ic("go") + '</span></button></div></section>' +
+      '</div>';
+    document.getElementById("startBtn").addEventListener("click", function () { go(1); });
+  }
+
+  /* ============ Stage 1 ============ */
+  function renderS1() {
+    var cards = ORDER.map(function (k, i) {
+      var f = FORCES[k];
+      return '<article class="upd" id="u-' + k + '">' +
+        '<div class="upd-top"><span class="num">Update ' + (i + 1) + '</span><span class="reveal" id="rv-' + k + '"></span></div>' +
+        '<p class="msg">' + f.update + '</p>' +
+        '<div class="seg" role="radiogroup" aria-label="Classify update ' + (i + 1) + '">' +
+          '<button type="button" class="sopt o-i" role="radio" aria-checked="false" data-k="' + k + '" data-v="I">' + ic("inside") + 'Internal</button>' +
+          '<button type="button" class="sopt o-e" role="radio" aria-checked="false" data-k="' + k + '" data-v="E">' + ic("outside") + 'External</button>' +
+        '</div>' +
+        '<div class="fbk" id="fb-' + k + '"></div>' +
+      '</article>';
+    }).join("");
+
+    app.innerHTML =
+      '<div class="stack">' +
+        '<section class="card">' +
+          '<div class="kicker">Stage 1 of 3</div>' +
+          '<h2 class="h2" tabindex="-1" id="screenTitle">Diagnose the Force</h2>' +
+          '<p class="lead">Four updates reached your desk this week. Read each one and decide whether the force behind it is internal or external to Glint.</p>' +
+        '</section>' +
+        '<div class="s1-grid">' + cards + '</div>' +
+        '<div id="s1Tally"></div>' +
+        '<section class="card"><div class="act-row"><span class="hint" id="s1Hint">Classify all four updates, then check them. Your first attempt is recorded.</span>' +
+          '<button class="btn btn-main" id="s1Btn" type="button" disabled>Check classifications <span class="bi">' + ic("check") + '</span></button></div></section>' +
+      '</div>';
+
+    Array.prototype.forEach.call(app.querySelectorAll(".sopt"), function (b) {
+      b.addEventListener("click", function () { classify(b.getAttribute("data-k"), b.getAttribute("data-v")); });
+      b.addEventListener("keydown", function (e) {
+        if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].indexOf(e.key) > -1) {
+          e.preventDefault();
+          var k = b.getAttribute("data-k"), v = b.getAttribute("data-v") === "I" ? "E" : "I";
+          var other = app.querySelector('.sopt[data-k="' + k + '"][data-v="' + v + '"]');
+          if (other && !other.disabled) { classify(k, v); other.focus(); }
+        }
+      });
+    });
+    document.getElementById("s1Btn").addEventListener("click", function () {
+      if (!S.s1.submitted) submitS1(); else go(2);
+    });
+    syncSeg();
+  }
+
+  function syncSeg() {
+    ORDER.forEach(function (k) {
+      var v = S.s1.ans[k];
+      var btns = app.querySelectorAll('.sopt[data-k="' + k + '"]');
+      Array.prototype.forEach.call(btns, function (b, idx) {
+        var on = b.getAttribute("data-v") === v;
+        b.setAttribute("aria-checked", on ? "true" : "false");
+        b.setAttribute("tabindex", on || (!v && idx === 0) ? "0" : "-1");
+      });
+    });
+  }
+
+  function classify(k, v) {
+    if (S.s1.submitted) {
+      var card = document.getElementById("u-" + k);
+      if (!card.classList.contains("no")) return;
+      S.s1.ans[k] = v;
+      syncSeg();
+      if (v === FORCES[k].type) {
+        card.classList.remove("no"); card.classList.add("fixed");
+        document.getElementById("rv-" + k).textContent = "Corrected: " + FORCES[k].name;
+        var fb = document.getElementById("fb-" + k);
+        fb.innerHTML = '<b>' + (FORCES[k].type === "I" ? "Internal" : "External") + ' force</b>' + FORCES[k].why;
+        Array.prototype.forEach.call(card.querySelectorAll(".sopt"), function (b) { b.disabled = true; });
+        say("Update corrected.");
+      }
+      return;
+    }
+    S.s1.ans[k] = v;
+    syncSeg();
+    document.getElementById("s1Btn").disabled = Object.keys(S.s1.ans).length < ORDER.length;
+  }
+
+  function submitS1() {
+    S.s1.submitted = true;
+    var right = 0;
+    ORDER.forEach(function (k) {
+      var f = FORCES[k], ok = S.s1.ans[k] === f.type;
+      if (ok) right++;
+      var card = document.getElementById("u-" + k);
+      card.classList.add(ok ? "ok" : "no");
+      document.getElementById("rv-" + k).textContent = (ok ? "Correct: " : "Incorrect: ") + f.name;
+      var tl = f.type === "I" ? "Internal" : "External";
+      document.getElementById("fb-" + k).innerHTML = ok
+        ? '<b>' + tl + ' force</b>' + f.why
+        : '<b>This is an ' + tl.toLowerCase() + ' force</b>' + f.why + ' You can switch your answer to ' + tl + ' to correct it, or continue.';
+      if (ok) Array.prototype.forEach.call(card.querySelectorAll(".sopt"), function (b) { b.disabled = true; });
+    });
+    S.s1.first = right;
+    document.getElementById("s1Tally").innerHTML = '<div class="tally"><span class="big">' + right + ' of 4</span><span>correct on your first attempt. That score is recorded. Correcting any incorrect cards is optional.</span></div>';
+    document.getElementById("s1Hint").textContent = "Classifications recorded. You can correct red cards or move on.";
+    var btn = document.getElementById("s1Btn");
+    btn.innerHTML = 'Continue to Stage 2 <span class="bi">' + ic("go") + '</span>';
+    btn.disabled = false;
+    S.dash.classified = true;
+    S.dash.note = "Forces identified. Effects not traced yet.";
+    renderDash("int");
+    say(right + " of 4 classifications correct.");
+    try { document.getElementById("s1Tally").scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) {}
+  }
+
+  /* ============ Stage 2 ============ */
+  function optBtn(cls, key, label, iconName, i, group) {
+    return '<button type="button" class="popt ' + cls + '" role="radio" aria-checked="false" data-g="' + group + '" data-key="' + key + '" tabindex="' + (i === 0 ? 0 : -1) + '"><span class="pi">' + ic(iconName) + '</span>' + label + '</button>';
+  }
+
+  function renderS2() {
+    var pw = PATHS[S.s2.i], f = FORCES[pw.force];
+    var isI = f.type === "I";
+    var acts = pw.acts.map(function (a, i) { return optBtn("", a, ACT[a][0], ACT[a][1], i, "act"); }).join("");
+    var prods = pw.prods.map(function (p, i) { return optBtn("", p, PROD[p][0], PROD[p][1], i, "prod"); }).join("");
+
+    app.innerHTML =
+      '<div class="stack">' +
+        '<section class="card">' +
+          '<div class="pw-head"><div class="kicker">Stage 2 of 3</div><span class="pw-pill">Pathway ' + (S.s2.i + 1) + ' of 2</span></div>' +
+          '<h2 class="h2" tabindex="-1" id="screenTitle">Trace the Impact</h2>' +
+          '<p class="lead">The situation has developed. Follow this force through to the business activity it affects and what happens to productivity.</p>' +
+          '<div class="path">' +
+            '<div class="node node-force" style="--fbg:' + (isI ? "var(--violet-tint)" : "var(--lime-tint)") + '">' +
+              '<div class="nh"><span style="background:' + (isI ? "var(--violet)" : "#7da300") + '">' + ic(f.icon) + '</span><b>Step A &middot; Force</b></div>' +
+              '<h4>' + f.name + '</h4>' +
+              '<span class="ftype" style="background:#fff;color:' + (isI ? "var(--violet)" : "var(--lime-dark)") + '">' + (isI ? "Internal" : "External") + '</span>' +
+              '<p>' + pw.change + '</p>' +
+            '</div>' +
+            '<div class="link lit" aria-hidden="true"><i></i></div>' +
+            '<div class="node active" id="nAct"><div class="nh"><span style="background:var(--cobalt)">' + ic("layers") + '</span><b>Step B &middot; Activity affected</b></div>' +
+              '<p style="font-size:14px;color:var(--ink-2)" id="qAct">Which business activity is affected first?</p>' +
+              '<div class="popts" role="radiogroup" aria-labelledby="qAct" id="gAct">' + acts + '</div></div>' +
+            '<div class="link" id="lk2" aria-hidden="true"><i></i></div>' +
+            '<div class="node idle" id="nProd"><div class="nh"><span style="background:var(--jade)">' + ic("gauge") + '</span><b>Step C &middot; Productivity</b></div>' +
+              '<p style="font-size:14px;color:var(--ink-2)" id="qProd">What is the likely productivity effect?</p>' +
+              '<div class="popts" role="radiogroup" aria-labelledby="qProd" id="gProd">' + prods + '</div></div>' +
+          '</div>' +
+          '<div id="pwFb"></div>' +
+          '<div class="act-row" style="margin-top:16px"><span class="hint" id="s2Hint">Choose the affected activity and confirm it. One attempt per step.</span>' +
+            '<button class="btn btn-main" id="s2Btn" type="button" disabled>Confirm activity <span class="bi">' + ic("check") + '</span></button></div>' +
+        '</section>' +
+      '</div>';
+
+    S.s2.act = null; S.s2.prod = null; S.s2.actLocked = false; S.s2.done = false;
+    setGroupDisabled("prod", true);
+    bindGroup("act"); bindGroup("prod");
+    document.getElementById("s2Btn").addEventListener("click", s2Action);
+  }
+
+  function setGroupDisabled(g, dis) {
+    Array.prototype.forEach.call(app.querySelectorAll('.popt[data-g="' + g + '"]'), function (b) { b.disabled = dis; });
+  }
+  function bindGroup(g) {
+    var btns = app.querySelectorAll('.popt[data-g="' + g + '"]');
+    Array.prototype.forEach.call(btns, function (b, idx) {
+      b.addEventListener("click", function () { choose(g, b.getAttribute("data-key")); });
+      b.addEventListener("keydown", function (e) {
+        var nx = null;
+        if (e.key === "ArrowDown" || e.key === "ArrowRight") nx = (idx + 1) % btns.length;
+        if (e.key === "ArrowUp" || e.key === "ArrowLeft") nx = (idx - 1 + btns.length) % btns.length;
+        if (nx !== null && !btns[nx].disabled) { e.preventDefault(); choose(g, btns[nx].getAttribute("data-key")); btns[nx].focus(); }
+      });
+    });
+  }
+  function choose(g, key) {
+    if (g === "act" && S.s2.actLocked) return;
+    if (g === "prod" && (!S.s2.actLocked || S.s2.done)) return;
+    S.s2[g] = key;
+    Array.prototype.forEach.call(app.querySelectorAll('.popt[data-g="' + g + '"]'), function (b) {
+      var on = b.getAttribute("data-key") === key;
+      b.setAttribute("aria-checked", on ? "true" : "false");
+      b.setAttribute("tabindex", on ? "0" : "-1");
+    });
+    document.getElementById("s2Btn").disabled = false;
+  }
+
+  function s2Action() {
+    var pw = PATHS[S.s2.i];
+    var btn = document.getElementById("s2Btn");
+    if (!S.s2.actLocked) {
+      if (!S.s2.act) return;
+      S.s2.actLocked = true;
+      setGroupDisabled("act", true);
+      document.getElementById("gAct").classList.add("locked");
+      document.getElementById("nAct").classList.remove("active");
+      document.getElementById("lk2").classList.add("lit");
+      var np = document.getElementById("nProd");
+      np.classList.remove("idle"); np.classList.add("active");
+      setGroupDisabled("prod", false);
+      btn.disabled = true;
+      btn.innerHTML = 'Confirm productivity effect <span class="bi">' + ic("check") + '</span>';
+      document.getElementById("s2Hint").textContent = "Activity recorded. Now choose the likely productivity effect.";
+      var first = app.querySelector('.popt[data-g="prod"]');
+      if (first) first.focus();
+      return;
+    }
+    if (!S.s2.done) {
+      if (!S.s2.prod) return;
+      S.s2.done = true;
+      setGroupDisabled("prod", true);
+      document.getElementById("gProd").classList.add("locked");
+      document.getElementById("nProd").classList.remove("active");
+      var aOk = S.s2.act === pw.act, pOk = S.s2.prod === pw.prod;
+      S.s2.correct += (aOk ? 1 : 0) + (pOk ? 1 : 0);
+      markGroup("act", pw.act, S.s2.act);
+      markGroup("prod", pw.prod, S.s2.prod);
+
+      S.dash.acts.push(pw.act);
+      S.dash.prod = pw.prod === "less" ? "pressure" : (pw.prod === "more" ? "improving" : (S.dash.prod === "pressure" ? "pressure" : "stable"));
+      if (S.s2.i === 0) { S.dash.status.trend = "Demand shifting"; S.dash.note = "Demand is shifting, but output per hour has not changed yet."; }
+      else { S.dash.status.eng = "Reprints rising"; S.dash.note = "The same team needs more hours for the same orders."; }
+      renderDash("act");
+
+      document.getElementById("pwFb").innerHTML =
+        '<div class="pw-fb" role="status">' +
+          '<div class="res-row">' +
+            '<span class="res ' + (aOk ? "y" : "n") + '">' + ic(aOk ? "check" : "cross") + 'Activity: ' + (aOk ? "correct" : "recorded as incorrect, it was " + ACT[pw.act][0].toLowerCase()) + '</span>' +
+            '<span class="res ' + (pOk ? "y" : "n") + '">' + ic(pOk ? "check" : "cross") + 'Productivity: ' + (pOk ? "correct" : "recorded as incorrect, it was " + PROD[pw.prod][0].toLowerCase()) + '</span>' +
+          '</div>' +
+          '<p>' + pw.fb + '</p>' +
+        '</div>';
+      btn.disabled = false;
+      btn.innerHTML = (S.s2.i === 0 ? "Trace the next force" : "Continue to Stage 3") + ' <span class="bi">' + ic("go") + '</span>';
+      document.getElementById("s2Hint").textContent = "Pathway recorded.";
+      say("Pathway complete. " + (aOk && pOk ? "Both steps correct." : "Answers recorded."));
+      try { document.getElementById("pwFb").scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) {}
+      return;
+    }
+    if (S.s2.i === 0) {
+      S.s2.i = 1;
+      renderS2();
+      focusTitle();
+      try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { window.scrollTo(0, 0); }
+    } else {
+      go(3);
+    }
+  }
+
+  function markGroup(g, correct, chosen) {
+    Array.prototype.forEach.call(app.querySelectorAll('.popt[data-g="' + g + '"]'), function (b) {
+      var k = b.getAttribute("data-key");
+      if (k === correct) b.classList.add("good");
+      else if (k === chosen) b.classList.add("bad");
+    });
+  }
+
+  /* ============ Stage 3 ============ */
+  function renderS3() {
+    var plans = PLANS.map(function (p, i) {
+      return '<button type="button" class="plan" role="radio" aria-checked="false" data-i="' + i + '" tabindex="' + (i === 0 ? 0 : -1) + '">' +
+        '<span class="sel" aria-hidden="true">' + ic("check") + '</span>' +
+        '<span class="ptop"><span class="pl">Plan ' + "ABC".charAt(i) + '</span><h4>' + p.title + '</h4></span>' +
+        '<ul>' + p.steps.map(function (s) { return '<li><span>' + s + '</span></li>'; }).join("") + '</ul>' +
+        '<span class="ptag">' + (i === BEST_PLAN ? "Strongest response" : "Your choice") + '</span>' +
+      '</button>';
+    }).join("");
+
+    app.innerHTML =
+      '<div class="stack">' +
+        '<section class="card">' +
+          '<div class="kicker">Stage 3 of 3</div>' +
+          '<h2 class="h2" tabindex="-1" id="screenTitle">Choose the Response</h2>' +
+          '<p class="lead">Two months later, personalized small-batch orders make up a third of Glint\'s orders, and the screen-printing setup handles them slowly. Operators remain disengaged and say schedule changes still reach them at the last minute. Funds for new spending are limited, and a leasing option for the new digital printer is available.</p>' +
+          '<div class="forces-row">' +
+            '<div class="fbox fb-i"><b>' + ic("inside") + 'Internal: what Glint can influence</b><p>Employee engagement is low, and financial resources are limited.</p></div>' +
+            '<div class="fbox fb-e"><b>' + ic("outside") + 'External: what Glint must adapt to</b><p>Customers prefer personalized small batches, and new printing technology is available.</p></div>' +
+          '</div>' +
+        '</section>' +
+        '<section class="card">' +
+          '<p style="font-size:19px;font-weight:800;margin-bottom:4px" id="qPlan">Which response plan should Glint put in place?</p>' +
+          '<p class="hint" style="margin-bottom:14px">Each plan is a reasonable business move. Consider what Glint can change directly and what it must adapt to.</p>' +
+          '<div class="plans" id="plans" role="radiogroup" aria-labelledby="qPlan">' + plans + '</div>' +
+          '<div class="act-row" style="margin-top:16px"><span class="hint" id="s3Hint">One attempt. Your plan is recorded when you confirm.</span>' +
+          '<button class="btn btn-main" id="s3Btn" type="button" disabled>Confirm plan <span class="bi">' + ic("check") + '</span></button></div>' +
+        '</section>' +
+        '<div id="s3Out"></div>' +
+      '</div>';
+
+    var ps = app.querySelectorAll(".plan");
+    Array.prototype.forEach.call(ps, function (b, idx) {
+      b.addEventListener("click", function () { pickPlan(idx); });
+      b.addEventListener("keydown", function (e) {
+        var nx = null;
+        if (e.key === "ArrowDown" || e.key === "ArrowRight") nx = (idx + 1) % ps.length;
+        if (e.key === "ArrowUp" || e.key === "ArrowLeft") nx = (idx - 1 + ps.length) % ps.length;
+        if (nx !== null && !S.s3.locked) { e.preventDefault(); pickPlan(nx); ps[nx].focus(); }
+      });
+    });
+    document.getElementById("s3Btn").addEventListener("click", confirmPlan);
+  }
+
+  function pickPlan(i) {
+    if (S.s3.locked) return;
+    S.s3.sel = i;
+    Array.prototype.forEach.call(app.querySelectorAll(".plan"), function (b, j) {
+      b.setAttribute("aria-checked", j === i ? "true" : "false");
+      b.setAttribute("tabindex", j === i ? "0" : "-1");
+    });
+    document.getElementById("s3Btn").disabled = false;
+  }
+
+  function confirmPlan() {
+    if (S.s3.locked || S.s3.sel === null) return;
+    S.s3.locked = true;
+    var p = PLANS[S.s3.sel];
+    var wrap = document.getElementById("plans");
+    wrap.classList.add("locked");
+    Array.prototype.forEach.call(wrap.querySelectorAll(".plan"), function (b, j) {
+      b.disabled = true;
+      if (j === S.s3.sel) b.classList.add("picked");
+      if (j === BEST_PLAN) b.classList.add("best");
+    });
+    var cb = document.getElementById("s3Btn"); cb.parentNode.removeChild(cb);
+    document.getElementById("s3Hint").textContent = S.s3.sel === BEST_PLAN ? "Recorded as the strongest response." : "Recorded as incorrect. See what happened below.";
+
+    Object.keys(p.dash).forEach(function (k) { S.dash.status[k] = p.dash[k]; });
+    S.dash.acts.push(p.actNow);
+    S.dash.prod = p.prod;
+    S.dash.note = p.prodT;
+    renderDash("prod");
+
+    var prodLabel = { improving: "Improving", stable: "Stable", pressure: "Under Pressure" }[p.prod];
+    var best = PLANS[BEST_PLAN];
+    document.getElementById("s3Out").innerHTML =
+      '<section class="outcome" aria-labelledby="ocTitle">' +
+        '<div class="oc-top oc-' + p.tone + '"><span class="oi">' + ic(p.tone === "good" ? "check" : "half") + '</span>' +
+          '<div><small>' + (S.s3.sel === BEST_PLAN ? "Strongest response" : "Recorded as incorrect &middot; " + p.verdict) + '</small><h3 tabindex="-1" id="ocTitle">' + p.head + '</h3></div></div>' +
+        '<div class="oc-body">' +
+          '<div class="oc-grid">' +
+            '<div class="oc-cell c-int"><div class="ch"><b>Internal force</b><em>' + p.intS + '</em></div><p>' + p.intT + '</p></div>' +
+            '<div class="oc-cell c-ext"><div class="ch"><b>External force</b><em>' + p.extS + '</em></div><p>' + p.extT + '</p></div>' +
+            '<div class="oc-cell c-prod"><div class="ch"><b>Productivity</b><em>' + prodLabel + '</em></div><p>' + p.prodT + '</p></div>' +
+          '</div>' +
+          (S.s3.sel === BEST_PLAN ? "" : '<div class="best-note">The strongest response was <b>Plan ' + "ABC".charAt(BEST_PLAN) + ': ' + best.title + '</b>. It addressed engagement, which Glint can influence, and adapted its offering to the customer trend with a lease that fit its limited funds.</div>') +
+          '<div class="act-row"><span class="hint">Your response has been recorded.</span><button class="btn btn-main" id="toRes" type="button">See your analysis <span class="bi">' + ic("go") + '</span></button></div>' +
+        '</div>' +
+      '</section>';
+    document.getElementById("toRes").addEventListener("click", function () { go(4); });
+    var out = document.getElementById("s3Out"), t = document.getElementById("ocTitle");
+    try { out.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (e) { out.scrollIntoView(); }
+    try { t.focus({ preventScroll: true }); } catch (e2) { t.focus(); }
+    say("Response recorded.");
+  }
+
+  /* ============ Results ============ */
+  function lvl(f) { return f >= 1 ? "Strong" : (f >= .75 ? "Proficient" : (f >= .5 ? "Developing" : "Emerging")); }
+  function renderResults() {
+    var p = PLANS[S.s3.sel === null ? BEST_PLAN : S.s3.sel];
+    var sk = [
+      { n: "Force Identification", v: S.s1.first, t: 4, c: "#582fc1", d: "Classifying forces as internal or external on the first attempt." },
+      { n: "Impact Analysis", v: S.s2.correct, t: 4, c: "#0b5394", d: "Tracing each force to the activity affected and its productivity effect." },
+      { n: "Response Decisions", v: p.score, t: 2, c: "#0f9d74", d: "Addressing internal conditions and adapting to external ones." }
+    ];
+    var skills = sk.map(function (s) {
+      var f = s.v / s.t, pct = Math.round(f * 100);
+      return '<div class="skill"><div class="ring" style="--p:' + pct + ';--rc:' + s.c + '" role="img" aria-label="' + s.n + ': ' + s.v + ' of ' + s.t + '"><span>' + s.v + '/' + s.t + '</span></div>' +
+        '<div><h3>' + s.n + '</h3><span class="lv" style="color:' + s.c + '">' + lvl(f) + '</span><p>' + s.d + '</p></div></div>';
+    }).join("");
+
+    var prodLabel = { improving: "Improving", stable: "Stable", pressure: "Under Pressure" }[p.prod];
+
+    app.innerHTML =
+      '<div class="stack">' +
+        '<section class="hero">' +
+          '<div class="eb">Glint &middot; Final situation</div>' +
+          '<h1 tabindex="-1" id="screenTitle">Business Environment Analysis</h1>' +
+          '<span class="sub">Productivity: ' + prodLabel + '</span>' +
+          '<p>' + p.final + '</p>' +
+        '</section>' +
+        '<div class="skills">' + skills + '</div>' +
+        '<section class="card"><div class="kicker" style="margin-bottom:10px">Your decisions</div><div class="recap">' +
+          '<div class="rc"><small>Stage 1</small><b>' + S.s1.first + ' of 4 forces classified correctly</b></div>' +
+          '<div class="rc"><small>Stage 2</small><b>' + S.s2.correct + ' of 4 pathway steps correct</b></div>' +
+          '<div class="rc"><small>Stage 3</small><b>Plan ' + "ABC".charAt(S.s3.sel) + ': ' + p.title + '</b></div>' +
+        '</div></section>' +
+        '<section class="card"><div class="kicker" style="margin-bottom:12px">Principles to keep</div><div class="principles">' +
+          '<div class="pr pr1"><div class="pn">1</div><p>Internal forces originate within the business and can usually be influenced more directly.</p></div>' +
+          '<div class="pr pr2"><div class="pn">2</div><p>External forces originate outside the business, requiring businesses to monitor and adapt to changing conditions.</p></div>' +
+          '<div class="pr pr3"><div class="pn">3</div><p>The effect of a force should be understood before deciding how the business should respond.</p></div>' +
+        '</div>' +
+        '<div class="act-row" style="margin-top:18px"><span class="hint">Replay to explore how different decisions change Glint\'s situation.</span>' +
+        '<button class="btn btn-soft" id="again" type="button">' + ic("again") + ' Try Again</button></div></section>' +
+      '</div>';
+    document.getElementById("again").addEventListener("click", function () { reset(); go(0); });
+  }
+
+  /* ============ Navigation ============ */
+  function focusTitle() {
+    var t = document.getElementById("screenTitle");
+    if (t) { try { t.focus({ preventScroll: true }); } catch (e) { t.focus(); } }
+  }
+  function go(v) {
+    S.view = v;
+    renderTrack();
+    renderDash();
+    if (v === 0) renderIntro();
+    else if (v === 1) renderS1();
+    else if (v === 2) { S.s2.i = 0; renderS2(); }
+    else if (v === 3) renderS3();
+    else renderResults();
+    try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { window.scrollTo(0, 0); }
+    if (v !== 0) focusTitle();
+  }
+
+  reset();
+  go(0);
+})();
+</script>
+</body>
+</html>
